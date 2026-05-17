@@ -771,8 +771,9 @@
                                             key={imgIndex}
                                             src={img}
                                             alt={`图片 ${imgIndex + 1}`}
-                                            className="max-w-full rounded-lg shadow-md hover:shadow-lg transition-shadow"
-                                            style={{ maxHeight: '400px', objectFit: 'contain' }}
+                                            className="max-w-full rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer hover:opacity-90"
+                                            style={{ maxHeight: '300px', objectFit: 'contain' }}
+                                            onClick={() => window.open(img, '_blank')}
                                         />
                                     ))}
                                 </div>
@@ -891,14 +892,7 @@
                 <div id="about" className="min-h-screen pt-20 pb-12">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="grid lg:grid-cols-5 gap-12 items-center mb-16">
-                            <div className="lg:col-span-2 space-y-6 animate-fade-in-up">
-                                <img
-                                    src="/public/avatar.jpg"
-                                    alt="李梦萍"
-                                    className="w-48 h-48 mx-auto lg:mx-0 rounded-lg object-cover cursor-pointer"
-                                    onClick={() => alert('🎉 嗨!很高兴你对我感兴趣!')}
-                                />
-
+                            <div className="lg:col-span-3 space-y-6 animate-fade-in-up">
                                 <div className="text-center lg:text-left">
                                     <h1 className="text-4xl lg:text-5xl font-bold mb-4">
                                         嗨,我是李梦萍
@@ -930,6 +924,15 @@
                                         </button>
                                     </div>
                                 </div>
+                            </div>
+
+                            <div className="lg:col-span-2 flex justify-center lg:justify-end animate-fade-in-up">
+                                <img
+                                    src="/public/avatar.jpg"
+                                    alt="李梦萍"
+                                    className="w-48 h-48 rounded-lg object-cover cursor-pointer"
+                                    onClick={() => alert('🎉 嗨!很高兴你对我感兴趣!')}
+                                />
                             </div>
 
                             <div className="lg:col-span-3 space-y-6">
@@ -1077,20 +1080,18 @@
                                                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                                                             {category.platforms.map((platform, idx) => (
                                                                 <div key={idx} className="rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600">
-                                                                    <img
-                                                                        src={platform.image}
-                                                                        alt={platform.name}
-                                                                        className="w-full cursor-pointer hover:opacity-90 transition-opacity"
-                                                                        onClick={() => window.open(platform.image, '_blank')}
-                                                                        onError={(e) => {
-                                                                            e.target.style.display = 'none';
-                                                                            e.target.nextSibling.style.display = 'flex';
-                                                                        }}
-                                                                    />
-                                                                    <div className="hidden items-center justify-center h-24 bg-gray-100 dark:bg-gray-800">
-                                                                        <span className="text-gray-400 text-sm">{platform.name}</span>
+                                                                    <div className="w-full h-32 overflow-hidden bg-gray-100 dark:bg-gray-700">
+                                                                        <img
+                                                                            src={platform.image}
+                                                                            alt={platform.name}
+                                                                            className="w-full h-full object-contain cursor-pointer hover:opacity-90 transition-opacity"
+                                                                            onClick={() => window.open(platform.image, '_blank')}
+                                                                            onError={(e) => {
+                                                                                e.target.style.display = 'none';
+                                                                            }}
+                                                                        />
                                                                     </div>
-                                                                    <p className="text-xs text-center py-2 bg-gray-50 dark:bg-gray-800">{platform.name}</p>
+                                                                    <p className="text-xs text-center py-2 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">{platform.name}</p>
                                                                 </div>
                                                             ))}
                                                         </div>
@@ -1218,7 +1219,7 @@
 
                                             <div className={`${theme === 'dark' ? 'bg-dark-card' : 'bg-white'} rounded-xl p-6 card-hover`}>
                                                 <h4 className="font-bold text-lg mb-3 text-primary">💻 Vibe Coding</h4>
-                                                <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+                                                <p className="text-sm text-gray-500 mb-4">
                                                     该网站即是本人vibe coding的第一个作品。虽然本人零编程基础，但在0成本的情况下，使用Trae、Gemini、Github、Netlify等多个AI工具在一周内从0到1搭建起了该网站。
                                                 </p>
                                             </div>
@@ -1265,11 +1266,11 @@
                                                         )}
                                                         
                                                         {item.image && (
-                                                            <div className="rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600">
+                                                            <div className="rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600 bg-gray-100 dark:bg-gray-700">
                                                                 <img
                                                                     src={item.image}
                                                                     alt={item.name}
-                                                                    className="w-full cursor-pointer hover:opacity-90 transition-opacity"
+                                                                    className="w-full max-h-64 object-contain cursor-pointer hover:opacity-90 transition-opacity"
                                                                     onClick={() => window.open(item.image, '_blank')}
                                                                     onError={(e) => {
                                                                         e.target.style.display = 'none';
@@ -1520,7 +1521,7 @@ Abeunt studia in mores.
                                 },
                                 {
                                     type: 'images',
-                                    images: ['/reading.png', '/show.jpg']
+                                    images: ['/public/reading.png', '/public/show.jpg']
                                 },
                                 {
                                     type: 'text',
