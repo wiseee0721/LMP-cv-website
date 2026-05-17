@@ -803,7 +803,7 @@
                         </span>
                     </button>
                     <div className={`accordion-content ${isOpen ? 'open' : ''}`}>
-                        <div className="px-6 pt-3 pb-4 text-sm ${theme === 'dark' ? 'text-light-accent' : ''}" style={{ color: theme === 'light' ? '#000001' : undefined }}>
+                        <div className={`px-6 pt-3 pb-4 text-sm ${theme === 'dark' ? 'text-light-accent' : ''}`} style={{ color: theme === 'light' ? '#000001' : undefined }}>
                             {typeof children === 'string' ? (
                                 <div className="whitespace-pre-line">{children}</div>
                             ) : (
