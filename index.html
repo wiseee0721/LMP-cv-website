@@ -1080,7 +1080,8 @@
                                                                     <img
                                                                         src={platform.image}
                                                                         alt={platform.name}
-                                                                        className="w-full h-24 object-cover object-top"
+                                                                        className="w-full cursor-pointer hover:opacity-90 transition-opacity"
+                                                                        onClick={() => window.open(platform.image, '_blank')}
                                                                         onError={(e) => {
                                                                             e.target.style.display = 'none';
                                                                             e.target.nextSibling.style.display = 'flex';
@@ -1217,12 +1218,9 @@
 
                                             <div className={`${theme === 'dark' ? 'bg-dark-card' : 'bg-white'} rounded-xl p-6 card-hover`}>
                                                 <h4 className="font-bold text-lg mb-3 text-primary">💻 Vibe Coding</h4>
-                                                <p className="text-sm text-gray-500 mb-4">
-                                                    使用Trae等编程助手，从0到1制作网站
+                                                <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+                                                    该网站即是本人vibe coding的第一个作品。虽然本人零编程基础，但在0成本的情况下，使用Trae、Gemini、Github、Netlify等多个AI工具在一周内从0到1搭建起了该网站。
                                                 </p>
-                                                <div className="flex justify-center items-center h-24 bg-gray-100 dark:bg-gray-800 rounded-lg">
-                                                    <span className="text-gray-400 text-sm">图片后续补充</span>
-                                                </div>
                                             </div>
                                         </div>
                                     ) : (
@@ -1271,7 +1269,8 @@
                                                                 <img
                                                                     src={item.image}
                                                                     alt={item.name}
-                                                                    className="w-full h-32 object-cover object-top"
+                                                                    className="w-full cursor-pointer hover:opacity-90 transition-opacity"
+                                                                    onClick={() => window.open(item.image, '_blank')}
                                                                     onError={(e) => {
                                                                         e.target.style.display = 'none';
                                                                     }}
