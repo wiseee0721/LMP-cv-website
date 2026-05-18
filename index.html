@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>嗨！我是李梦萍 - 个人简历</title>
-    <script src="https://cdn.staticfile.net/react/18.2.0/umd/react.development.js" crossorigin></script>
-    <script src="https://cdn.staticfile.net/react-dom/18.2.0/umd/react-dom.development.js" crossorigin></script>
-    <script src="https://cdn.staticfile.net/babel-standalone/7.23.10/babel.min.js"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.staticfile.net/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -771,8 +771,8 @@
                                             key={imgIndex}
                                             src={img}
                                             alt={`图片 ${imgIndex + 1}`}
-                                            className="max-w-full rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer hover:opacity-90"
-                                            style={{ maxHeight: '300px', objectFit: 'contain' }}
+                                            className="max-w-full rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer"
+                                            style={{ maxHeight: '400px', objectFit: 'contain' }}
                                             onClick={() => window.open(img, '_blank')}
                                         />
                                     ))}
@@ -803,7 +803,7 @@
                         </span>
                     </button>
                     <div className={`accordion-content ${isOpen ? 'open' : ''}`}>
-                        <div className={`px-6 pt-3 pb-4 text-sm ${theme === 'dark' ? 'text-light-accent' : ''}`} style={{ color: theme === 'light' ? '#000001' : undefined }}>
+                        <div className="px-6 pt-3 pb-4 text-sm ${theme === 'dark' ? 'text-light-accent' : ''}" style={{ color: theme === 'light' ? '#000001' : undefined }}>
                             {typeof children === 'string' ? (
                                 <div className="whitespace-pre-line">{children}</div>
                             ) : (
@@ -891,52 +891,56 @@
             return (
                 <div id="about" className="min-h-screen pt-20 pb-12">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="grid lg:grid-cols-2 gap-12 items-center mb-12">
-                            <div className="animate-fade-in-up">
-                                <h1 className="text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-                                    <span className="text-primary">嗨！</span>
-                                    <br />
-                                    <span>我是<span className="text-primary">李梦萍</span></span>
-                                </h1>
-                            </div>
+                        <div className="grid lg:grid-cols-5 gap-12 items-center mb-16">
+                            <div className="lg:col-span-3 space-y-8">
+                                <div className={`${theme === 'dark' ? 'bg-dark-card' : 'bg-white'} rounded-xl p-8`}>
+                                    <div className="flex items-center gap-8">
+                                        <div className="text-center lg:text-left flex-1">
+                                            <h1 className="text-4xl lg:text-5xl font-bold mb-2">
+                                                <span className="text-primary">嗨！</span>
+                                            </h1>
+                                            <h1 className="text-4xl lg:text-5xl font-bold">
+                                                我是<span className="text-primary">李梦萍</span>
+                                            </h1>
+                                        </div>
+                                        <img
+                                            src="/public/avatar.jpg"
+                                            alt="李梦萍"
+                                            className="w-48 h-48 rounded-lg object-cover cursor-pointer flex-shrink-0"
+                                            onClick={() => alert('🎉 嗨!很高兴你对我感兴趣!')}
+                                        />
+                                    </div>
+                                </div>
 
-                            <div className="flex justify-center lg:justify-end animate-fade-in-up">
-                                <img
-                                    src="/public/avatar.jpg"
-                                    alt="李梦萍"
-                                    className="w-64 h-64 rounded-lg object-cover cursor-pointer shadow-lg"
-                                    onClick={() => alert('🎉 嗨!很高兴你对我感兴趣!')}
-                                />
-                            </div>
-                        </div>
+                                <div className={`${theme === 'dark' ? 'bg-dark-card' : 'bg-white'} rounded-xl p-6`}>
+                                    <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
+                                        <button
+                                            onClick={copyEmail}
+                                            className="px-6 py-3 bg-white border border-primary text-primary rounded-lg hover:bg-green-50 transition-colors font-semibold"
+                                        >
+                                            📧 邮箱
+                                        </button>
+                                        <button
+                                            onClick={() => openModal('wechat')}
+                                            className="px-6 py-3 bg-white border border-primary text-primary rounded-lg hover:bg-green-50 transition-colors font-semibold"
+                                        >
+                                            💬 微信
+                                        </button>
+                                        <button
+                                            onClick={() => {
+                                                const link = document.createElement('a');
+                                                link.href = '/public/resume.pdf';
+                                                link.download = '李梦萍-简历.pdf';
+                                                link.click();
+                                            }}
+                                            className="px-6 py-3 bg-white border border-primary text-primary rounded-lg hover:bg-green-50 transition-colors font-semibold"
+                                        >
+                                            📄 下载简历
+                                        </button>
+                                    </div>
+                                </div>
 
-                        <div className="flex flex-wrap justify-center gap-4 mb-16 animate-fade-in-up">
-                            <button
-                                onClick={copyEmail}
-                                className="px-8 py-4 bg-white border-2 border-primary text-primary rounded-lg hover:bg-green-50 transition-colors font-semibold"
-                            >
-                                📧 邮箱
-                            </button>
-                            <button
-                                onClick={() => openModal('wechat')}
-                                className="px-8 py-4 bg-white border-2 border-primary text-primary rounded-lg hover:bg-green-50 transition-colors font-semibold"
-                            >
-                                💬 微信
-                            </button>
-                            <button
-                                onClick={() => {
-                                    const link = document.createElement('a');
-                                    link.href = '/resume.pdf';
-                                    link.download = '李梦萍-简历.pdf';
-                                    link.click();
-                                }}
-                                className="px-8 py-4 bg-white border-2 border-primary text-primary rounded-lg hover:bg-green-50 transition-colors font-semibold"
-                            >
-                                📄 下载简历
-                            </button>
-                        </div>
-
-                        <div className="grid md:grid-cols-2 gap-6">
+                                <div className="grid md:grid-cols-2 gap-6">
                                     <div className={`${theme === 'dark' ? 'bg-dark-card' : 'bg-white'} rounded-xl p-6 card-hover animate-fade-in-up animate-delay-200`}>
                                         <h3 className="text-lg font-bold mb-4 text-primary">🎓 教育背景</h3>
                                         <div className="border-l-2 border-primary pl-3 space-y-4">
@@ -1086,13 +1090,11 @@
                                                                         onClick={() => window.open(platform.image, '_blank')}
                                                                         onError={(e) => {
                                                                             e.target.style.display = 'none';
-                                                                            e.target.nextSibling.style.display = 'flex';
+                                                                            if (e.target.nextSibling) {
+                                                                                e.target.nextSibling.style.display = 'flex';
+                                                                            }
                                                                         }}
                                                                     />
-                                                                    <div className="hidden items-center justify-center py-3 bg-gray-100 dark:bg-gray-700">
-                                                                        <span className="text-gray-400 text-sm">{platform.name}</span>
-                                                                    </div>
-                                                                    <p className="text-xs text-center py-2 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">{platform.name}</p>
                                                                 </div>
                                                             ))}
                                                         </div>
@@ -1181,25 +1183,29 @@
                                                 <p className="text-sm text-gray-500 mb-4">
                                                     使用Nano Banana、Seedream等工具制作运营配图
                                                 </p>
-                                                <div className="overflow-x-auto">
-                                                    <div className="flex gap-3">
+                                                <div className="flex gap-3 justify-center">
                                                         <img
                                                             src="/public/AI-P-1.png"
                                                             alt="AI图片1"
-                                                            className="w-32 h-24 object-cover rounded-lg flex-shrink-0"
+                                                            className="max-w-full rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer"
+                                                            style={{ maxHeight: '300px', objectFit: 'contain' }}
+                                                            onClick={() => window.open('/public/AI-P-1.png', '_blank')}
                                                         />
                                                         <img
                                                             src="/public/AI-P-2.jpg"
                                                             alt="AI图片2"
-                                                            className="w-32 h-24 object-cover rounded-lg flex-shrink-0"
+                                                            className="max-w-full rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer"
+                                                            style={{ maxHeight: '300px', objectFit: 'contain' }}
+                                                            onClick={() => window.open('/public/AI-P-2.jpg', '_blank')}
                                                         />
                                                         <img
                                                             src="/public/AI-P-3.jpg"
                                                             alt="AI图片3"
-                                                            className="w-32 h-24 object-cover rounded-lg flex-shrink-0"
+                                                            className="max-w-full rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer"
+                                                            style={{ maxHeight: '300px', objectFit: 'contain' }}
+                                                            onClick={() => window.open('/public/AI-P-3.jpg', '_blank')}
                                                         />
                                                     </div>
-                                                </div>
                                             </div>
 
                                             <div className={`${theme === 'dark' ? 'bg-dark-card' : 'bg-white'} rounded-xl p-6 card-hover`}>
@@ -1220,7 +1226,7 @@
 
                                             <div className={`${theme === 'dark' ? 'bg-dark-card' : 'bg-white'} rounded-xl p-6 card-hover`}>
                                                 <h4 className="font-bold text-lg mb-3 text-primary">💻 Vibe Coding</h4>
-                                                <p className="text-sm text-gray-500 mb-4">
+                                                <p className="text-sm text-gray-500">
                                                     该网站即是本人vibe coding的第一个作品。虽然本人零编程基础，但在0成本的情况下，使用Trae、Gemini、Github、Netlify等多个AI工具在一周内从0到1搭建起了该网站。
                                                 </p>
                                             </div>
@@ -1267,11 +1273,11 @@
                                                         )}
                                                         
                                                         {item.image && (
-                                                            <div className="rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600 bg-gray-100 dark:bg-gray-700">
+                                                            <div className="rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600">
                                                                 <img
                                                                     src={item.image}
                                                                     alt={item.name}
-                                                                    className="w-full max-h-64 object-contain cursor-pointer hover:opacity-90 transition-opacity"
+                                                                    className="w-full cursor-pointer hover:opacity-90 transition-opacity"
                                                                     onClick={() => window.open(item.image, '_blank')}
                                                                     onError={(e) => {
                                                                         e.target.style.display = 'none';
