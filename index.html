@@ -306,11 +306,11 @@
                             writingSamples: [
                                 {
                                     type: 'Narration/记叙文',
-                                    url: '/Narration-记叙文.pdf'
+                                    url: '/public/Narration-记叙文.pdf'
                                 },
                                 {
                                     type: 'Argumentation/议论文',
-                                    url: '/Argumentation-议论文.pdf'
+                                    url: '/public/Argumentation-议论文.pdf'
                                 }
                             ]
                         }
@@ -933,7 +933,9 @@
                                             const link = document.createElement('a');
                                             link.href = '/public/resume.pdf';
                                             link.download = '李梦萍-简历.pdf';
+                                            document.body.appendChild(link);
                                             link.click();
+                                            document.body.removeChild(link);
                                         }}
                                         className="px-6 py-3 bg-white border border-primary text-primary rounded-lg hover:bg-green-50 transition-colors font-semibold"
                                     >
