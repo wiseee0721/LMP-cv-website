@@ -525,11 +525,11 @@
             const [isMenuOpen, setIsMenuOpen] = useState(false);
 
             const navItems = [
-                { id: 'about', label: '关于我' },
+                { id: 'about', label: 'Me in a Nutshell' },
                 { id: 'skills', label: '技能图谱' },
                 { id: 'netease', label: '实习经历A-网易' },
                 { id: 'southern', label: '实习经历B-南方周末' },
-                { id: 'qa', label: 'Q&A' }
+                { id: 'qa', label: 'Me in Full Detail' }
             ];
 
             const scrollToSection = (id) => {
@@ -1102,20 +1102,22 @@
                                                     <h4 className="text-xl font-bold mb-4 text-center py-2 px-4 bg-green-50 text-primary rounded-lg">{category.name}</h4>
 
                                                     {category.id === 'short' && (
-                                                        <div className="flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-primary/30 scrollbar-track-transparent">
-                                                            {category.platforms.map((platform, idx) => (
-                                                                <img
-                                                                    key={idx}
-                                                                    src={platform.image}
-                                                                    alt={platform.name}
-                                                                    className="max-w-full rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer snap-center flex-shrink-0"
-                                                                    style={{ maxHeight: '300px', objectFit: 'contain' }}
-                                                                    onClick={() => setViewingImage(platform.image)}
-                                                                    onError={(e) => {
-                                                                        e.target.style.display = 'none';
-                                                                    }}
-                                                                />
-                                                            ))}
+                                                        <div className="overflow-x-auto pb-2">
+                                                            <div className="flex gap-3 justify-center min-w-max mx-auto">
+                                                                {category.platforms.map((platform, idx) => (
+                                                                    <img
+                                                                        key={idx}
+                                                                        src={platform.image}
+                                                                        alt={platform.name}
+                                                                        className="rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer"
+                                                                        style={{ maxHeight: '300px', objectFit: 'contain' }}
+                                                                        onClick={() => setViewingImage(platform.image)}
+                                                                        onError={(e) => {
+                                                                            e.target.style.display = 'none';
+                                                                        }}
+                                                                    />
+                                                                ))}
+                                                            </div>
                                                         </div>
                                                     )}
 
@@ -1568,7 +1570,7 @@ Abeunt studia in mores.
                 {
                     key: 'content',
                     title: '内容结构',
-                    subtitle: '信息逻辑是否清晰，能否快速定位到工作经历、项目成果等关键内容',
+                    subtitle: '信息逻辑是否清晰，能否快速定位到工作经历、项目成果等关键内容？',
                     options: ['混乱难读', '不太清晰', '结构清晰', '非常清晰', '秒懂关键']
                 },
                 {
