@@ -532,7 +532,7 @@
             const scrollToSection = (id) => {
                 const element = document.getElementById(id);
                 if (element) {
-                    element.scrollIntoView({ behavior: 'smooth' });
+                    element.scrollIntoView();
                 }
                 setIsMenuOpen(false);
             };
@@ -748,7 +748,7 @@
             );
         };
 
-        const AnswerRenderer = ({ answer }) => {
+        const AnswerRenderer = ({ answer, onImageClick }) => {
             if (typeof answer === 'string') {
                 return <div className="whitespace-pre-line">{answer}</div>;
             }
@@ -773,7 +773,7 @@
                                             alt={`图片 ${imgIndex + 1}`}
                                             className="max-w-full rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer"
                                             style={{ maxHeight: '400px', objectFit: 'contain' }}
-                                            onClick={() => window.open(img, '_blank')}
+                                            onClick={() => onImageClick && onImageClick(img)}
                                         />
                                     ))}
                                 </div>
@@ -786,7 +786,7 @@
         };
 
         // 手风琴组件
-        const Accordion = ({ title, children, isOpen, onToggle, titleBgClass = '' }) => {
+        const Accordion = ({ title, children, isOpen, onToggle, titleBgClass = '', onImageClick }) => {
             const { theme } = useAppStore();
 
             return (
@@ -807,7 +807,7 @@
                             {typeof children === 'string' ? (
                                 <div className="whitespace-pre-line">{children}</div>
                             ) : (
-                                <AnswerRenderer answer={children} />
+                                <AnswerRenderer answer={children} onImageClick={onImageClick} />
                             )}
                         </div>
                     </div>
@@ -891,144 +891,142 @@
             return (
                 <div id="about" className="min-h-screen pt-20 pb-12">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="grid lg:grid-cols-5 gap-12 items-center mb-16">
-                            <div className="lg:col-span-3 space-y-8">
-                                <div className={`${theme === 'dark' ? 'bg-dark-card' : 'bg-white'} rounded-xl p-8`}>
-                                    <div className="flex items-center gap-8">
-                                        <div className="text-center lg:text-left flex-1">
-                                            <h1 className="text-4xl lg:text-5xl font-bold mb-2">
-                                                <span className="text-primary">嗨！</span>
-                                            </h1>
-                                            <h1 className="text-4xl lg:text-5xl font-bold">
-                                                我是<span className="text-primary">李梦萍</span>
-                                            </h1>
+                        <div className="space-y-8 max-w-4xl mx-auto">
+                            <div className={`${theme === 'dark' ? 'bg-dark-card' : 'bg-white'} rounded-xl p-8`}>
+                                <div className="flex flex-col md:flex-row items-center md:items-start gap-8">
+                                    <div className="text-center md:text-left flex-1">
+                                        <h1 className="text-4xl lg:text-5xl font-bold mb-2">
+                                            <span className="text-primary">嗨！</span>
+                                        </h1>
+                                        <h1 className="text-4xl lg:text-5xl font-bold">
+                                            我是<span className="text-primary">李梦萍</span>
+                                        </h1>
+                                    </div>
+                                    <img
+                                        src="/public/avatar.jpg"
+                                        alt="李梦萍"
+                                        className="w-48 h-48 rounded-lg object-cover cursor-pointer flex-shrink-0"
+                                        onClick={() => alert('🎉 嗨!很高兴你对我感兴趣!')}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className={`${theme === 'dark' ? 'bg-dark-card' : 'bg-white'} rounded-xl p-6`}>
+                                <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
+                                    <button
+                                        onClick={copyEmail}
+                                        className="px-6 py-3 bg-white border border-primary text-primary rounded-lg hover:bg-green-50 transition-colors font-semibold"
+                                    >
+                                        📧 邮箱
+                                    </button>
+                                    <button
+                                        onClick={() => openModal('wechat')}
+                                        className="px-6 py-3 bg-white border border-primary text-primary rounded-lg hover:bg-green-50 transition-colors font-semibold"
+                                    >
+                                        💬 微信
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            const link = document.createElement('a');
+                                            link.href = '/public/resume.pdf';
+                                            link.download = '李梦萍-简历.pdf';
+                                            link.click();
+                                        }}
+                                        className="px-6 py-3 bg-white border border-primary text-primary rounded-lg hover:bg-green-50 transition-colors font-semibold"
+                                    >
+                                        📄 下载简历
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div className="grid md:grid-cols-2 gap-6">
+                                <div className={`${theme === 'dark' ? 'bg-dark-card' : 'bg-white'} rounded-xl p-6 card-hover animate-fade-in-up animate-delay-200`}>
+                                    <h3 className="text-lg font-bold mb-4 text-primary">🎓 教育背景</h3>
+                                    <div className="border-l-2 border-primary pl-3 space-y-4">
+                                        <div>
+                                            <p className="font-semibold text-sm">🌳 研究生 | 广东外语外贸大学</p>
+                                            <p className="text-xs text-gray-500 mt-1">• 专业：英语语言文学</p>
+                                            <p className="text-xs text-gray-500 mt-1">• 绩点：3.85 / 4</p>
                                         </div>
-                                        <img
-                                            src="/public/avatar.jpg"
-                                            alt="李梦萍"
-                                            className="w-48 h-48 rounded-lg object-cover cursor-pointer flex-shrink-0"
-                                            onClick={() => alert('🎉 嗨!很高兴你对我感兴趣!')}
-                                        />
+                                        <div>
+                                            <p className="font-semibold text-sm">🌱 本科 | 广州中医药大学（双一流）</p>
+                                            <p className="text-xs text-gray-500 mt-1">• 专业：英语（医药方向）</p>
+                                            <p className="text-xs text-gray-500 mt-1">• 绩点：3.54 / 4（前5%）</p>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div className={`${theme === 'dark' ? 'bg-dark-card' : 'bg-white'} rounded-xl p-6`}>
-                                    <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
-                                        <button
-                                            onClick={copyEmail}
-                                            className="px-6 py-3 bg-white border border-primary text-primary rounded-lg hover:bg-green-50 transition-colors font-semibold"
-                                        >
-                                            📧 邮箱
-                                        </button>
-                                        <button
-                                            onClick={() => openModal('wechat')}
-                                            className="px-6 py-3 bg-white border border-primary text-primary rounded-lg hover:bg-green-50 transition-colors font-semibold"
-                                        >
-                                            💬 微信
-                                        </button>
-                                        <button
-                                            onClick={() => {
-                                                const link = document.createElement('a');
-                                                link.href = '/public/resume.pdf';
-                                                link.download = '李梦萍-简历.pdf';
-                                                link.click();
-                                            }}
-                                            className="px-6 py-3 bg-white border border-primary text-primary rounded-lg hover:bg-green-50 transition-colors font-semibold"
-                                        >
-                                            📄 下载简历
-                                        </button>
+                                <div
+                                    className={`${theme === 'dark' ? 'bg-dark-card' : 'bg-white'} rounded-xl p-6 card-hover cursor-pointer animate-fade-in-up animate-delay-300`}
+                                    onClick={() => document.getElementById('skills').scrollIntoView()}
+                                >
+                                    <h3 className="text-lg font-bold mb-4 text-primary">💡 核心技能</h3>
+                                    <div className="border-l-2 border-primary pl-3 space-y-4">
+                                        <div className="flex flex-wrap items-center gap-2">
+                                            <p className="text-sm font-semibold">✍️ 文案创作:</p>
+                                            <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">中英双语</span>
+                                            <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">50+稿件经验</span>
+                                        </div>
+                                        <div className="flex flex-wrap items-center gap-2">
+                                            <p className="text-sm font-semibold">📊 数据分析:</p>
+                                            <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">Excel</span>
+                                            <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">SQL</span>
+                                            <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">20+项目经验</span>
+                                        </div>
+                                        <div className="flex flex-wrap items-center gap-2">
+                                            <p className="text-sm font-semibold">🤖 AI工具:</p>
+                                            <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">生图</span>
+                                            <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">生视频</span>
+                                            <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">vibe coding</span>
+                                        </div>
+                                        <p className="text-sm text-primary">点击查看详细 →</p>
                                     </div>
                                 </div>
 
-                                <div className="grid md:grid-cols-2 gap-6">
-                                    <div className={`${theme === 'dark' ? 'bg-dark-card' : 'bg-white'} rounded-xl p-6 card-hover animate-fade-in-up animate-delay-200`}>
-                                        <h3 className="text-lg font-bold mb-4 text-primary">🎓 教育背景</h3>
-                                        <div className="border-l-2 border-primary pl-3 space-y-4">
-                                            <div>
-                                                <p className="font-semibold text-sm">🌳 研究生 | 广东外语外贸大学</p>
-                                                <p className="text-xs text-gray-500 mt-1">• 专业：英语语言文学</p>
-                                                <p className="text-xs text-gray-500 mt-1">• 绩点：3.85 / 4</p>
-                                            </div>
-                                            <div>
-                                                <p className="font-semibold text-sm">🌱 本科 | 广州中医药大学（双一流）</p>
-                                                <p className="text-xs text-gray-500 mt-1">• 专业：英语（医药方向）</p>
-                                                <p className="text-xs text-gray-500 mt-1">• 绩点：3.54 / 4（前5%）</p>
-                                            </div>
+                                <div
+                                    className={`${theme === 'dark' ? 'bg-dark-card' : 'bg-white'} rounded-xl p-6 card-hover cursor-pointer animate-fade-in-up animate-delay-400`}
+                                    onClick={() => document.getElementById('netease').scrollIntoView()}
+                                >
+                                    <h3 className="text-lg font-bold mb-4 text-primary">🏢 实习经历A-网易</h3>
+                                    <div className="border-l-2 border-primary pl-3 space-y-3">
+                                        <div>
+                                            <p className="text-sm font-semibold">产品运营实习生 | 2025.06 -- 2025.10</p>
                                         </div>
+                                        <div>
+                                            <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
+                                                实习期间参与了<span className="text-accent font-semibold">4款</span>产品，<span className="text-accent font-semibold">20余次</span>的测评，共推动<span className="text-accent font-semibold">7次</span>产品迭代与<span className="text-accent font-semibold">2个</span>新功能落地，充分锻炼数据分析能力，<span className="text-accent italic underline">懂得如何数据化地认知业务，并基于具体问题收集和分析数据，推动决策</span>
+                                            </p>
+                                        </div>
+                                        <div className="flex flex-wrap gap-2">
+                                            <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">产品测评</span>
+                                            <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">用户洞察</span>
+                                            <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">竞品调研</span>
+                                            <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">异动分析</span>
+                                        </div>
+                                        <p className="text-sm text-primary">点击查看详情 →</p>
                                     </div>
+                                </div>
 
-                                    <div
-                                        className={`${theme === 'dark' ? 'bg-dark-card' : 'bg-white'} rounded-xl p-6 card-hover cursor-pointer animate-fade-in-up animate-delay-300`}
-                                        onClick={() => document.getElementById('skills').scrollIntoView({ behavior: 'smooth' })}
-                                    >
-                                        <h3 className="text-lg font-bold mb-4 text-primary">💡 核心技能</h3>
-                                        <div className="border-l-2 border-primary pl-3 space-y-4">
-                                            <div className="flex flex-wrap items-center gap-2">
-                                                <p className="text-sm font-semibold">✍️ 文案创作:</p>
-                                                <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">中英双语</span>
-                                                <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">50+稿件经验</span>
-                                            </div>
-                                            <div className="flex flex-wrap items-center gap-2">
-                                                <p className="text-sm font-semibold">📊 数据分析:</p>
-                                                <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">Excel</span>
-                                                <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">SQL</span>
-                                                <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">20+项目经验</span>
-                                            </div>
-                                            <div className="flex flex-wrap items-center gap-2">
-                                                <p className="text-sm font-semibold">🤖 AI工具:</p>
-                                                <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">生图</span>
-                                                <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">生视频</span>
-                                                <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">vibe coding</span>
-                                            </div>
-                                            <p className="text-sm text-primary">点击查看详细 →</p>
+                                <div
+                                    className={`${theme === 'dark' ? 'bg-dark-card' : 'bg-white'} rounded-xl p-6 card-hover cursor-pointer animate-fade-in-up animate-delay-400`}
+                                    onClick={() => document.getElementById('southern').scrollIntoView()}
+                                >
+                                    <h3 className="text-lg font-bold mb-4 text-primary">📰 实习经历B-南方周末</h3>
+                                    <div className="border-l-2 border-primary pl-3 space-y-3">
+                                        <div>
+                                            <p className="text-sm font-semibold">项目运营实习生 | 2024.10-2025.01</p>
                                         </div>
-                                    </div>
-
-                                    <div
-                                        className={`${theme === 'dark' ? 'bg-dark-card' : 'bg-white'} rounded-xl p-6 card-hover cursor-pointer animate-fade-in-up animate-delay-400`}
-                                        onClick={() => document.getElementById('netease').scrollIntoView({ behavior: 'smooth' })}
-                                    >
-                                        <h3 className="text-lg font-bold mb-4 text-primary">🏢 实习经历A-网易</h3>
-                                        <div className="border-l-2 border-primary pl-3 space-y-3">
-                                            <div>
-                                                <p className="text-sm font-semibold">产品运营实习生 | 2025.06 -- 2025.10</p>
-                                            </div>
-                                            <div>
-                                                <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
-                                                    实习期间参与了<span className="text-accent font-semibold">4款</span>产品，<span className="text-accent font-semibold">20余次</span>的测评，共推动<span className="text-accent font-semibold">7次</span>产品迭代与<span className="text-accent font-semibold">2个</span>新功能落地，充分锻炼数据分析能力，<span className="text-accent italic underline">懂得如何数据化地认知业务，并基于具体问题收集和分析数据，推动决策</span>
-                                                </p>
-                                            </div>
-                                            <div className="flex flex-wrap gap-2">
-                                                <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">产品测评</span>
-                                                <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">用户洞察</span>
-                                                <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">竞品调研</span>
-                                                <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">异动分析</span>
-                                            </div>
-                                            <p className="text-sm text-primary">点击查看详情 →</p>
+                                        <div>
+                                            <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
+                                                实习期间参与了<span className="text-accent font-semibold">6</span>场品牌活动的运营及<span className="text-accent font-semibold">2</span>次整合营销项目，共创作<span className="text-accent font-semibold">50+</span>稿件，累计触达用户<span className="text-accent font-semibold">超百万</span>，<span className="text-accent italic underline">擅长整合不同媒介渠道，打造适配品牌调性及渠道特性的内容，达到品效合一的效果</span>
+                                            </p>
                                         </div>
-                                    </div>
-
-                                    <div
-                                        className={`${theme === 'dark' ? 'bg-dark-card' : 'bg-white'} rounded-xl p-6 card-hover cursor-pointer animate-fade-in-up animate-delay-400`}
-                                        onClick={() => document.getElementById('southern').scrollIntoView({ behavior: 'smooth' })}
-                                    >
-                                        <h3 className="text-lg font-bold mb-4 text-primary">📰 实习经历B-南方周末</h3>
-                                        <div className="border-l-2 border-primary pl-3 space-y-3">
-                                            <div>
-                                                <p className="text-sm font-semibold">项目运营实习生 | 2024.10-2025.01</p>
-                                            </div>
-                                            <div>
-                                                <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
-                                                    实习期间参与了<span className="text-accent font-semibold">6</span>场品牌活动的运营及<span className="text-accent font-semibold">2</span>次整合营销项目，共创作<span className="text-accent font-semibold">50+</span>稿件，累计触达用户<span className="text-accent font-semibold">超百万</span>，<span className="text-accent italic underline">擅长整合不同媒介渠道，打造适配品牌调性及渠道特性的内容，达到品效合一的效果</span>
-                                                </p>
-                                            </div>
-                                            <div className="flex flex-wrap gap-2">
-                                                <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">内容创作</span>
-                                                <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">传播规划</span>
-                                                <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">多项目推进</span>
-                                            </div>
-                                            <p className="text-sm text-primary">点击查看详情 →</p>
+                                        <div className="flex flex-wrap gap-2">
+                                            <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">内容创作</span>
+                                            <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">传播规划</span>
+                                            <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">多项目推进</span>
                                         </div>
+                                        <p className="text-sm text-primary">点击查看详情 →</p>
                                     </div>
                                 </div>
                             </div>
@@ -1042,6 +1040,7 @@
         const SkillsPage = () => {
             const { theme } = useAppStore();
             const [activeSkill, setActiveSkill] = useState(null);
+            const [viewingImage, setViewingImage] = useState(null);
 
             const skills = [
                 { id: 'writing', name: '文案撰写', score: 8.5, color: '#2E7D32' },
@@ -1051,6 +1050,26 @@
 
             return (
                 <div id="skills" className="min-h-screen py-20">
+                    {viewingImage && (
+                        <div 
+                            className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
+                            onClick={() => setViewingImage(null)}
+                        >
+                            <img 
+                                src={viewingImage}
+                                alt="查看大图"
+                                className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+                                style={{ maxHeight: '90vh' }}
+                            />
+                            <button 
+                                className="absolute top-4 right-4 text-white text-4xl hover:text-gray-300 transition-colors"
+                                onClick={() => setViewingImage(null)}
+                            >
+                                ×
+                            </button>
+                        </div>
+                    )}
+
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <h2 className="text-3xl lg:text-4xl font-bold text-center mb-12 animate-fade-in-up">
                             技能图谱
@@ -1087,7 +1106,8 @@
                                                                         src={platform.image}
                                                                         alt={platform.name}
                                                                         className="w-full cursor-pointer hover:opacity-90 transition-opacity"
-                                                                        onClick={() => window.open(platform.image, '_blank')}
+                                                                        style={{ height: '120px', objectFit: 'cover' }}
+                                                                        onClick={() => setViewingImage(platform.image)}
                                                                         onError={(e) => {
                                                                             e.target.style.display = 'none';
                                                                             if (e.target.nextSibling) {
@@ -1183,27 +1203,27 @@
                                                 <p className="text-sm text-gray-500 mb-4">
                                                     使用Nano Banana、Seedream等工具制作运营配图
                                                 </p>
-                                                <div className="flex gap-3 justify-center">
+                                                <div className="flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-primary/30 scrollbar-track-transparent">
                                                         <img
                                                             src="/public/AI-P-1.png"
                                                             alt="AI图片1"
-                                                            className="max-w-full rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer"
+                                                            className="max-w-full rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer snap-center flex-shrink-0"
                                                             style={{ maxHeight: '300px', objectFit: 'contain' }}
-                                                            onClick={() => window.open('/public/AI-P-1.png', '_blank')}
+                                                            onClick={() => setViewingImage('/public/AI-P-1.png')}
                                                         />
                                                         <img
                                                             src="/public/AI-P-2.jpg"
                                                             alt="AI图片2"
-                                                            className="max-w-full rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer"
+                                                            className="max-w-full rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer snap-center flex-shrink-0"
                                                             style={{ maxHeight: '300px', objectFit: 'contain' }}
-                                                            onClick={() => window.open('/public/AI-P-2.jpg', '_blank')}
+                                                            onClick={() => setViewingImage('/public/AI-P-2.jpg')}
                                                         />
                                                         <img
                                                             src="/public/AI-P-3.jpg"
                                                             alt="AI图片3"
-                                                            className="max-w-full rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer"
+                                                            className="max-w-full rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer snap-center flex-shrink-0"
                                                             style={{ maxHeight: '300px', objectFit: 'contain' }}
-                                                            onClick={() => window.open('/public/AI-P-3.jpg', '_blank')}
+                                                            onClick={() => setViewingImage('/public/AI-P-3.jpg')}
                                                         />
                                                     </div>
                                             </div>
@@ -1227,7 +1247,7 @@
                                             <div className={`${theme === 'dark' ? 'bg-dark-card' : 'bg-white'} rounded-xl p-6 card-hover`}>
                                                 <h4 className="font-bold text-lg mb-3 text-primary">💻 Vibe Coding</h4>
                                                 <p className="text-sm text-gray-500">
-                                                    该网站即是本人vibe coding的第一个作品。虽然本人零编程基础，但在0成本的情况下，使用Trae、Gemini、Github、Netlify等多个AI工具在一周内从0到1搭建起了该网站。
+                                                    该网站即是本人vibe coding的<span className="text-accent font-semibold">第一个作品</span>。虽然本人<span className="text-accent font-semibold">零编程基础</span>，但在<span className="text-accent font-semibold">0成本</span>的情况下，使用Trae、Gemini、Github、Netlify等多个AI工具在<span className="text-accent font-semibold">一周内从0到1</span>搭建起了该网站。
                                                 </p>
                                             </div>
                                         </div>
@@ -1278,7 +1298,7 @@
                                                                     src={item.image}
                                                                     alt={item.name}
                                                                     className="w-full cursor-pointer hover:opacity-90 transition-opacity"
-                                                                    onClick={() => window.open(item.image, '_blank')}
+                                                                    onClick={() => setViewingImage(item.image)}
                                                                     onError={(e) => {
                                                                         e.target.style.display = 'none';
                                                                     }}
@@ -1380,6 +1400,7 @@
         // Q&A页面
         const QAPage = () => {
             const [openIndex, setOpenIndex] = useState(null);
+            const [viewingImage, setViewingImage] = useState(null);
             const [suggestion, setSuggestion] = useState('');
             const [ratings, setRatings] = useState({
                 content: 0,
@@ -1652,6 +1673,26 @@ Abeunt studia in mores.
 
             return (
                 <div id="qa" className="min-h-screen py-20">
+                    {viewingImage && (
+                        <div 
+                            className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
+                            onClick={() => setViewingImage(null)}
+                        >
+                            <img 
+                                src={viewingImage}
+                                alt="查看大图"
+                                className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+                                style={{ maxHeight: '90vh' }}
+                            />
+                            <button 
+                                className="absolute top-4 right-4 text-white text-4xl hover:text-gray-300 transition-colors"
+                                onClick={() => setViewingImage(null)}
+                            >
+                                ×
+                            </button>
+                        </div>
+                    )}
+
                     <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
                         <h2 className="text-3xl lg:text-4xl font-bold text-center mb-12 animate-fade-in-up">
                             Shall We Talk =）
@@ -1675,6 +1716,7 @@ Abeunt studia in mores.
                                             titleBgClass="bg-green-50 dark:bg-green-900/20"
                                             isOpen={openIndex === `${catIndex}-${itemIndex}`}
                                             onToggle={() => setOpenIndex(openIndex === `${catIndex}-${itemIndex}` ? null : `${catIndex}-${itemIndex}`)}
+                                            onImageClick={setViewingImage}
                                         >
                                             {item.answer}
                                         </Accordion>
